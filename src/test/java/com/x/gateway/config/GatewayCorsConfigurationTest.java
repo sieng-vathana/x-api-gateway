@@ -9,8 +9,6 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 
-import java.util.List;
-
 class GatewayCorsConfigurationTest {
 
     private final WebTestClient webTestClient = webTestClient();
@@ -44,8 +42,7 @@ class GatewayCorsConfigurationTest {
 
     private static WebTestClient webTestClient() {
         GatewayCorsConfiguration configuration = new GatewayCorsConfiguration();
-        CorsWebFilter filter = configuration.corsWebFilter(
-                List.of("http://localhost:5173", "http://localhost:3000"));
+        CorsWebFilter filter = configuration.corsWebFilter("");
 
         return WebTestClient.bindToWebHandler(exchange -> {
                     ServerHttpResponse response = exchange.getResponse();
