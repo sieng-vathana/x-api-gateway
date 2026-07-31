@@ -22,11 +22,13 @@ public class GatewayCorsConfiguration {
                     "http://127.0.0.1:5173",
                     "http://localhost:3000",
                     "http://127.0.0.1:3000");
+    private static final List<String> LOCAL_UI_ORIGIN_PATTERNS =
+            List.of("http://localhost:*", "http://127.0.0.1:*");
     @Bean
     public CorsWebFilter corsWebFilter(
             @Value("${GATEWAY_CORS_ALLOWED_ORIGINS:}") String additionalOrigins) {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(allowedOrigins(additionalOrigins));
+        configuration.setAllowedOriginPatterns(allowedOriginPatterns(additionalOrigins));
         configuration.addAllowedMethod(CorsConfiguration.ALL);
         configuration.addAllowedHeader(CorsConfiguration.ALL);
         configuration.setExposedHeaders(List.of("Location", "X-Correlation-ID"));
@@ -48,6 +50,12 @@ public class GatewayCorsConfiguration {
             }
         }
         return new ArrayList<>(origins);
+    }
+
+    static List<String> allowedOriginPatterns(String additionalOrigins) {
+        Set<String> patterns = new LinkedHashSet<>(LOCAL_UI_ORIGIN_PATTERNS);
+        patterns.addAll(allowedOrigins(additionalOrigins));
+        return new ArrayList<>(patterns);
     }
 
 }

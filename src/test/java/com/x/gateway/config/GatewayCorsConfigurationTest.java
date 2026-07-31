@@ -18,7 +18,9 @@ class GatewayCorsConfigurationTest {
             "http://localhost:5173",
             "http://127.0.0.1:5173",
             "http://localhost:3000",
-            "http://127.0.0.1:3000"})
+            "http://127.0.0.1:3000",
+            "http://localhost:5174",
+            "http://127.0.0.1:5174"})
     void acceptsConfiguredLocalUiOrigins(String origin) {
         webTestClient.options()
                 .uri("http://gateway.test/api/v1/auth/login")
@@ -34,7 +36,7 @@ class GatewayCorsConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"http://localhost:4173", "https://malicious.example"})
+    @ValueSource(strings = {"https://malicious.example", "http://malicious.example:5173"})
     void rejectsUnconfiguredOrigins(String origin) {
         webTestClient.options()
                 .uri("http://gateway.test/api/v1/auth/login")
