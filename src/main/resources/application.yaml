@@ -19,6 +19,15 @@ spring:
     compatibility-verifier:
       enabled: false
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:5173"
+              - "http://127.0.0.1:5173"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
       routes:
         - id: x-bff
           uri: ${BFF_SERVICE_URL:http://localhost:8443}
@@ -51,7 +60,8 @@ x:
         /api/v1/products: "x-api-gateway → x-bff → x-product-service"
         /api/v1/orders: "x-api-gateway → x-bff → x-order-service"
         /api/v1/businesses: "x-api-gateway → x-bff → x-business-service"
-        /api/v1/shops: "x-api-gateway → x-bff → x-shop-service"
+        /api/v1/stores: "x-api-gateway → x-bff → x-store-service"
         /api/v1/stock: "x-api-gateway → x-bff → x-inventory-service"
         /api/v1/home: "x-api-gateway → x-bff → x-inventory-service"
         /api/v1/payments: "x-api-gateway → x-bff → x-payment-service"
+        /api/v1/customers: "x-api-gateway → x-bff → x-customer-service"

@@ -17,17 +17,18 @@ import java.util.Set;
 public class GatewayCorsConfiguration {
 
     private static final List<String> LOCAL_UI_ORIGINS =
-            List.of("http://localhost:5173", "http://localhost:3000");
-    private static final List<String> ALLOWED_METHODS =
-            List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
-
+            List.of(
+                    "http://localhost:5173",
+                    "http://127.0.0.1:5173",
+                    "http://localhost:3000",
+                    "http://127.0.0.1:3000");
     @Bean
     public CorsWebFilter corsWebFilter(
             @Value("${GATEWAY_CORS_ALLOWED_ORIGINS:}") String additionalOrigins) {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(allowedOrigins(additionalOrigins));
-        configuration.setAllowedMethods(ALLOWED_METHODS);
-        configuration.setAllowedHeaders(List.of(CorsConfiguration.ALL));
+        configuration.addAllowedMethod(CorsConfiguration.ALL);
+        configuration.addAllowedHeader(CorsConfiguration.ALL);
         configuration.setExposedHeaders(List.of("Location", "X-Correlation-ID"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
@@ -48,4 +49,5 @@ public class GatewayCorsConfiguration {
         }
         return new ArrayList<>(origins);
     }
+
 }

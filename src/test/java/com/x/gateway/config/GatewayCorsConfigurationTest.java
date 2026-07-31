@@ -14,10 +14,14 @@ class GatewayCorsConfigurationTest {
     private final WebTestClient webTestClient = webTestClient();
 
     @ParameterizedTest
-    @ValueSource(strings = {"http://localhost:5173", "http://localhost:3000"})
+    @ValueSource(strings = {
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "http://localhost:3000",
+            "http://127.0.0.1:3000"})
     void acceptsConfiguredLocalUiOrigins(String origin) {
         webTestClient.options()
-                .uri("/api/v1/auth/login")
+                .uri("http://gateway.test/api/v1/auth/login")
                 .header(HttpHeaders.ORIGIN, origin)
                 .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, HttpMethod.POST.name())
                 .header(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS, "content-type,x-client-type")
@@ -33,7 +37,7 @@ class GatewayCorsConfigurationTest {
     @ValueSource(strings = {"http://localhost:4173", "https://malicious.example"})
     void rejectsUnconfiguredOrigins(String origin) {
         webTestClient.options()
-                .uri("/api/v1/auth/login")
+                .uri("http://gateway.test/api/v1/auth/login")
                 .header(HttpHeaders.ORIGIN, origin)
                 .header(HttpHeaders.ACCESS_CONTROL_REQUEST_METHOD, HttpMethod.POST.name())
                 .exchange()
