@@ -15,13 +15,15 @@ class GatewayCorsConfigurationTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
+            "https://market.learner-teach.online",
+            "https://portal.learner-teach.online",
             "http://localhost:5173",
             "http://127.0.0.1:5173",
             "http://localhost:3000",
             "http://127.0.0.1:3000",
             "http://localhost:5174",
             "http://127.0.0.1:5174"})
-    void acceptsConfiguredLocalUiOrigins(String origin) {
+    void acceptsConfiguredUiOrigins(String origin) {
         webTestClient.options()
                 .uri("http://gateway.test/api/v1/auth/login")
                 .header(HttpHeaders.ORIGIN, origin)

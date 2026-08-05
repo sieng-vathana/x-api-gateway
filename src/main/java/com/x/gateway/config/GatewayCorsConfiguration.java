@@ -16,8 +16,10 @@ import java.util.Set;
 @Configuration
 public class GatewayCorsConfiguration {
 
-    private static final List<String> LOCAL_UI_ORIGINS =
+    private static final List<String> UI_ORIGINS =
             List.of(
+                    "https://market.learner-teach.online",
+                    "https://portal.learner-teach.online",
                     "http://localhost:5173",
                     "http://127.0.0.1:5173",
                     "http://localhost:3000",
@@ -41,7 +43,7 @@ public class GatewayCorsConfiguration {
     }
 
     static List<String> allowedOrigins(String additionalOrigins) {
-        Set<String> origins = new LinkedHashSet<>(LOCAL_UI_ORIGINS);
+        Set<String> origins = new LinkedHashSet<>(UI_ORIGINS);
         if (StringUtils.hasText(additionalOrigins)) {
             for (String origin : additionalOrigins.split(",")) {
                 if (StringUtils.hasText(origin)) {
