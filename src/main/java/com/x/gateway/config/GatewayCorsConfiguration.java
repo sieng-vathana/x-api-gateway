@@ -18,6 +18,7 @@ public class GatewayCorsConfiguration {
 
     private static final List<String> UI_ORIGINS =
             List.of(
+                    "https://backoffice.learner-teach.online",
                     "https://market.learner-teach.online",
                     "https://portal.learner-teach.online",
                     "http://localhost:5173",
