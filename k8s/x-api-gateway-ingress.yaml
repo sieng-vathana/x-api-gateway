@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: x-api-gateway
+  namespace: x-platform
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - api.learner-teach.online
+      secretName: x-api-gateway-tls
+  rules:
+    - host: api.learner-teach.online
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: x-api-gateway
+                port:
+                  number: 8080

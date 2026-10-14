@@ -60,6 +60,9 @@ jobs:
           sudo k3s kubectl -n x-platform set env deployment/x-api-gateway SERVER_PORT=8080 SPRING_PROFILES_ACTIVE=production BFF_SERVICE_URL=http://x-bff.x-platform.svc.cluster.local:8080 SPRING_DATA_REDIS_HOST=redis.x-platform.svc.cluster.local SPRING_DATA_REDIS_PORT=6379
           sudo k3s kubectl -n x-platform patch deployment x-api-gateway --type=strategic -p='{"spec":{"template":{"spec":{"imagePullSecrets":[{"name":"ghcr-pull-x-api-gateway"}]}}}}'
           sudo k3s kubectl -n x-platform rollout status deployment/x-api-gateway --timeout=180s
+      - uses: actions/checkout@v4
+      - name: Apply API ingress
+        run: sudo k3s kubectl apply -f k8s/x-api-gateway-ingress.yaml
       - name: Remove temporary GHCR pull secret
         if: success()
         run: |
