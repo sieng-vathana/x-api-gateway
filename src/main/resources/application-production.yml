@@ -8,6 +8,12 @@ spring:
       port: ${REDIS_PORT:6379}
   cloud:
     gateway:
+      # Expire pooled upstream channels before a long-idle connection can go stale.
+      httpclient:
+        pool:
+          max-idle-time: 30s
+          max-life-time: 10m
+          eviction-interval: 10s
       routes:
         - id: x-bff
           uri: ${BFF_SERVICE_URL:http://localhost:8443}
