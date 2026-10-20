@@ -15,6 +15,11 @@ spring:
           max-life-time: 10m
           eviction-interval: 10s
       routes:
+        - id: x-notification-realtime
+          # Live updates over WebSocket; long-lived, so no rate limiter.
+          uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8085}
+          predicates:
+            - Path=/ws/**
         - id: x-bff
           uri: ${BFF_SERVICE_URL:http://localhost:8443}
           predicates:
